@@ -20,20 +20,21 @@ firebase.initializeApp(config);
 const db = admin.firestore();
 
 app.get("/getUser", (req, res) => {
-  db.collection("User")
+  db.collection("users")
     .get()
     .then((data) => {
-      let user = [];
+      let users = [];
       data.forEach((doc) => {
-        user.push({
+        users.push({
           userId: doc.id,
-          username: doc.data().username,
-          password: doc.data().password,
+          email: doc.data().email,
+          handle: doc.data().handle,
           firstname: doc.data().firstname,
           lastname: doc.data().lastname,
+          createdAt: doc.data().createdAt
         });
       });
-      return res.json(user);
+      return res.json(users);
     })
     .catch((err) => console.error(err));
 });
